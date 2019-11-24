@@ -34,7 +34,6 @@ class App extends Component {
     return (
       <div>
         <NavBar />
-        <Questions />
         <Route exact path='/' component={Questions}/>
         <Route exact path='/question/:questionId' component={Question}/>
         <Route exact path='/callback' component={Callback}/>
