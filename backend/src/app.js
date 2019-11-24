@@ -5,6 +5,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
+const Question = require('./models/Question')
+const Answer = require('./models/Answer')
 
 // define the Express app
 const app = express();
@@ -42,16 +44,25 @@ const checkJwt = jwt({
 app.use(require('./routes'))
 
 // retrieve all questions
-app.get('/', (req, res) => {
-  console.log(req)
-  const qs = questions.map(q => ({
-    id: q.id,
-    title: q.title,
-    description: q.description,
-    answers: q.answers.length,
-  }));
-  res.send(qs);
-});
+// app.get('/', (req, res) => {
+//   const qs = questions.map(q => ({
+//     id: q.id,
+//     title: q.title,
+//     description: q.description,
+//     answers: q.answers.length,
+//   }));
+//   res.send(qs);
+// });
+
+// retrieve all questions
+app.get('/', async (req, res) => {
+  try {
+    const questions = await Question.find()
+    res.send(questions)
+  } catch (error) {
+    res.status(500).send()
+  }
+})
 
 // get a specific question
 app.get('/:id', (req, res) => {
@@ -62,17 +73,32 @@ app.get('/:id', (req, res) => {
 });
 
 // insert a new question
-app.post('/', checkJwt, (req, res) => {
-  const {title, description} = req.body;
-  const newQuestion = {
-    id: questions.length + 1,
-    title,
-    description,
-    answers: [],
-  };
-  questions.push(newQuestion);
-  res.status(200).send();
-});
+// app.post('/', checkJwt, (req, res) => {
+//   const {title, description} = req.body;
+//   const newQuestion = {
+//     id: questions.length + 1,
+//     title,
+//     description,
+//     answers: [],
+//   };
+//   questions.push(newQuestion);
+//   res.status(200).send();
+// });
+
+// insert a new question
+app.post('/', checkJwt, async (req, res) => {
+  try {
+    const { title, description } = req.body
+    const newQuestion = new Question({
+      title,
+      description
+    })
+    const savedQuestion = await newQuestion.save()
+    res.send(savedQuestion)
+  } catch (error) {
+    res.status(500).send()
+  }
+})
 
 // insert a new answer to a question
 app.post('/answer/:id', checkJwt, (req, res) => {
@@ -90,3 +116,7 @@ app.post('/answer/:id', checkJwt, (req, res) => {
 });
 
 module.exports = app
+
+
+// What is React?
+// Can someone provide a fairy detailed overview of what React is? 🤔
