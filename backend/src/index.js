@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 require('dotenv').config();
 const PORT = process.env.PORT || 5000
 
