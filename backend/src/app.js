@@ -65,12 +65,23 @@ app.get('/', async (req, res) => {
 })
 
 // get a specific question
-app.get('/:id', (req, res) => {
-  const question = questions.filter(q => (q.id === parseInt(req.params.id)));
-  if (question.length > 1) return res.status(500).send();
-  if (question.length === 0) return res.status(404).send();
-  res.send(question[0]);
-});
+// app.get('/:id', (req, res) => {
+//   const question = questions.filter(q => (q.id === parseInt(req.params.id)));
+//   if (question.length > 1) return res.status(500).send();
+//   if (question.length === 0) return res.status(404).send();
+//   res.send(question[0]);
+// });
+
+// get a specific question
+app.get('/:id', async (req, res) => {
+  try {
+    const question = await Question.findById(req.params.id, (err, question) => {})
+    res.send(question)
+  } catch (error) {
+    if (question.length > 1) return res.status(500).send()
+    if (question.length === 0) return res.status(404).send()
+  }
+})
 
 // insert a new question
 // app.post('/', checkJwt, (req, res) => {
@@ -104,7 +115,7 @@ app.post('/', checkJwt, async (req, res) => {
 app.post('/answer/:id', checkJwt, (req, res) => {
   const {answer} = req.body;
 
-  const question = questions.filter(q => (q.id === parseInt(req.params.id)));
+  const question = questions.filter(q => (q._id === parseInt(req.params.id)));
   if (question.length > 1) return res.status(500).send();
   if (question.length === 0) return res.status(404).send();
 
@@ -120,3 +131,6 @@ module.exports = app
 
 // What is React?
 // Can someone provide a fairy detailed overview of what React is? 🤔
+
+// Why is Testing Important?
+// People are always talking about TDD. What's all the fuzz about?
