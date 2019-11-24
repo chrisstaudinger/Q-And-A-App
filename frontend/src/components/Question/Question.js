@@ -37,6 +37,7 @@ class Question extends Component {
   render() {
     const {question} = this.state;
     if (question === null) return <p>Loading ...</p>;
+    console.log(question)
     return (
       <div className="container">
         <div className="row">
@@ -44,11 +45,12 @@ class Question extends Component {
             <h1 className="display-3">{question.title}</h1>
             <p className="lead">{question.description}</p>
             <hr className="my-4" />
-            <SubmitAnswer questionId={question.id} submitAnswer={this.submitAnswer} />
+            <SubmitAnswer questionId={question._id} submitAnswer={this.submitAnswer} />
             <p>Answers:</p>
+            { question.answers.length === 0 && <p>No answers have been submitted for this question yet</p> }
             {
-              question.answers.map((answer, idx) => (
-                <p className="lead" key={idx}>{answer.answer}</p>
+              question.answers && question.answers.map((answer, idx) => (
+              <p className="lead" key={idx}>{answer.content}</p>
               ))
             }
           </div>
