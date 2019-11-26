@@ -76,6 +76,8 @@ app.get('/', async (req, res) => {
 app.get('/:id', async (req, res) => {
   try {
     const question = await Question.findById(req.params.id, (err, question) => {})
+      .populate('answers')
+    console.log(question)
     res.send(question)
   } catch (error) {
     if (question.length > 1) return res.status(500).send()
@@ -112,19 +114,41 @@ app.post('/', checkJwt, async (req, res) => {
 })
 
 // insert a new answer to a question
-app.post('/answer/:id', checkJwt, (req, res) => {
-  const {answer} = req.body;
+// app.post('/answer/:id', checkJwt, (req, res) => {
+//   const {answer} = req.body;
 
-  const question = questions.filter(q => (q._id === parseInt(req.params.id)));
-  if (question.length > 1) return res.status(500).send();
-  if (question.length === 0) return res.status(404).send();
+//   const question = questions.filter(q => (q._id === parseInt(req.params.id)));
+//   if (question.length > 1) return res.status(500).send();
+//   if (question.length === 0) return res.status(404).send();
 
-  question[0].answers.push({
-    answer,
-  });
+//   question[0].answers.push({
+//     answer,
+//   });
 
-  res.status(200).send();
-});
+//   res.status(200).send();
+// });
+
+// Insert a new answer to a question
+app.post('/answer/:id', checkJwt, async (req, res) => {
+  try {
+    const { answer } = req.body;
+    // console.log(answer, req.params.id)
+    const question = await Question.findById(req.params.id, (err, question) => {})
+    // console.log(question)
+    const newAnswer = new Answer({
+      content: answer,
+      question: question._id
+    })
+
+    const savedAnswer = await newAnswer.save()
+    question.answers.push(savedAnswer)
+    const updatedQuestion = await question.save()
+    console.log(question)
+    res.send(savedAnswer)
+  } catch (error) {
+    res.status(500).send()
+  }
+})
 
 module.exports = app
 

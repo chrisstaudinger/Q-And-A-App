@@ -14,5 +14,5 @@ mongoose.connect(process.env.DB_URL, dbOptions, (err) => {
   }
 })
 
-const app = require('./app')
+const app = require('./server')
 app.listen(PORT, () => console.log(`listening on port ${PORT} 👍`))

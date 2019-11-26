@@ -26,7 +26,7 @@ class Question extends Component {
   }
 
   async submitAnswer(answer) {
-    await axios.post(`http://localhost:5000/answer/${this.state.question.id}`, {
+    await axios.post(`http://localhost:5000/answer/${this.state.question._id}`, {
       answer,
     }, {
       headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
@@ -49,8 +49,8 @@ class Question extends Component {
             <p>Answers:</p>
             { question.answers.length === 0 && <p>No answers have been submitted for this question yet</p> }
             {
-              question.answers && question.answers.map((answer, idx) => (
-              <p className="lead" key={idx}>{answer.content}</p>
+              question.answers && question.answers.map((answer) => (
+              <p className="lead" key={answer._id}>{answer.content}</p>
               ))
             }
           </div>
