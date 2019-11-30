@@ -9,6 +9,7 @@ import { UserContext } from '../../context/CurrentUser';
 import Modal from 'react-responsive-modal';
 
 class Question extends Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -33,6 +34,7 @@ class Question extends Component {
   async submitAnswer(answer) {
     await axios.post(`http://localhost:5000/answer/${this.state.question._id}`, {
       answer,
+      userId: this.context.sub,
     }, {
       headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
     });
