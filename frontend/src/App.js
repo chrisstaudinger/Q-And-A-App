@@ -31,9 +31,6 @@ class App extends Component {
       if (err.error !== 'login_required') console.log(err.error);
     }
     this.setState({checkingSession:false});
-
-    // Request to retrieve user's ID from Auth0
-    const response = await axios.post('http://localhost:5000/user')
   }
 
   render() {
