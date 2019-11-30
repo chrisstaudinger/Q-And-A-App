@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import auth0Client from '../../Auth';
+import {UserContext} from '../../context/CurrentUser'
 
 function NavBar(props) {
+
+  const currentUser = useContext(UserContext)
+
   const signOut = () => {
     auth0Client.signOut();
     props.history.replace('/');
@@ -20,7 +24,7 @@ function NavBar(props) {
       {
         auth0Client.isAuthenticated() &&
         <div>
-          <label className="mr-2 text-white">{auth0Client.getProfile().name}</label>
+          <label className="mr-2 text-white">{currentUser.name}</label>
           <button className="btn btn-dark" onClick={() => {signOut()}}>Sign Out</button>
         </div>
       }

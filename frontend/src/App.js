@@ -7,6 +7,9 @@ import Callback from './components/Callback/Callback';
 import NewQuestion from './components/NewQuestion/NewQuestion';
 import SecuredRoute from './components/SecuredRoute/SecuredRoute';
 import auth0Client from './Auth';
+import axios from 'axios';
+import { UserContext } from './context/CurrentUser'
+
 
 class App extends Component {
   constructor(props) {
@@ -28,11 +31,14 @@ class App extends Component {
       if (err.error !== 'login_required') console.log(err.error);
     }
     this.setState({checkingSession:false});
+
+    // Request to retrieve user's ID from Auth0
+    const response = await axios.post('http://localhost:5000/user')
   }
 
   render() {
     return (
-      <div>
+      <UserContext.Provider value={auth0Client.getProfile()}>
         <NavBar />
         <Route exact path='/' component={Questions}/>
         <Route exact path='/question/:questionId' component={Question}/>
@@ -40,7 +46,7 @@ class App extends Component {
         <SecuredRoute path='/new-question'
         component={NewQuestion}
         checkingSession={this.state.checkingSession} />
-      </div>
+      </UserContext.Provider>
     );
   }
 }

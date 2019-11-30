@@ -38,7 +38,7 @@ class Question extends Component {
   render() {
     const {question} = this.state;
     if (question === null) return <p>Loading ...</p>;
-    console.log(question)
+    // console.log(question)
     return (
       <>
         <div className="container">

@@ -110,3 +110,4 @@ module.exports = app
 // People are always talking about TDD. What's all the fuzz about?
 
 // Are class components in React going to become deprecated now that there are context and hooks APIs?
+// Good question. It will be interesting to see how it plays out. Bit too early to tell at this point.
