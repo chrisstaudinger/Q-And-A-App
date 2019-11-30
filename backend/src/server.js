@@ -69,10 +69,11 @@ app.get('/:id', async (req, res) => {
 // insert a new question
 app.post('/', checkJwt, async (req, res) => {
   try {
-    const { title, description } = req.body
+    const { title, description, userId } = req.body
     const newQuestion = new Question({
       title,
-      description
+      description,
+      userId
     })
     const savedQuestion = await newQuestion.save()
     res.send(savedQuestion)
@@ -106,6 +107,16 @@ app.delete('/answer/:id', checkJwt, async (req, res) => {
   try {
     const deletedAnswer = await Answer.findByIdAndDelete(req.params.id, (err, answer) => {})
     res.send(deletedAnswer)
+  } catch (error) {
+    res.status(500).send()
+  }
+})
+
+// Delete a question
+app.delete('/question/:id', checkJwt, async (req, res) => {
+  try {
+    const deletedQuestion = await Question.findByIdAndDelete(req.params.id, (err, question) => {})
+    res.send(deletedQuestion)
   } catch (error) {
     res.status(500).send()
   }

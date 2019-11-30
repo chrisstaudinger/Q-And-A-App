@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import auth0Client from '../../Auth';
 import axios from 'axios';
+import { UserContext } from '../../context/CurrentUser';
 
 class NewQuestion extends Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
@@ -34,6 +36,7 @@ class NewQuestion extends Component {
     await axios.post('http://localhost:5000', {
       title: this.state.title,
       description: this.state.description,
+      userId: this.context.sub,
     }, {
       headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
     });

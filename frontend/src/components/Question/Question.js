@@ -1,10 +1,12 @@
-import React, { Component, useContext } from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component, useContext, useState } from 'react';
+import { Redirect } from 'react-router';
+import {Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 import SubmitAnswer from './SubmitAnswer';
 import auth0Client from '../../Auth';
 import Answer from './Answer'
 import { UserContext } from '../../context/CurrentUser';
+import Modal from 'react-responsive-modal';
 
 class Question extends Component {
   constructor(props) {
@@ -65,17 +67,40 @@ class Question extends Component {
 }
 
 const Buttons = ({ question }) => {
+  const history = useHistory();
   const currentUser = useContext(UserContext);
-  const deleteQuestion = async () => {}
+  const [showConfirmModal, toggleShowConfirmModal] = useState(false)
+  const deleteQuestion = async () => {
+    const deletedAnswer = await axios.delete(`http://localhost:5000/question/${question._id}`, {
+      headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
+    });
+    history.push('/')
+  }
+
   const wasCreatedByCurrentUser = currentUser && currentUser.sub === question.userId
 
   return (
     <div style={{ display: "flex", justifyContent: "flex-end"}}>
-    { wasCreatedByCurrentUser && <button className="btn btn-danger" style={{ marginRight: 20 }}>Delete question</button>}
-      <Link to="/" style={{float: "right"}}>
+      { wasCreatedByCurrentUser && <button className="btn btn-danger" style={{ marginRight: 20 }} onClick={() => toggleShowConfirmModal(true)}>Delete Question</button> }
+      <Link to="/">
         <button className="btn btn-dark">Back To Forum</button>
       </Link>
+      <ConfirmDeleteModal deleteQuestion={deleteQuestion} isOpen={showConfirmModal} closeModal={() => toggleShowConfirmModal(false)} />
     </div>
+  )
+}
+
+const ConfirmDeleteModal = ({ deleteQuestion, isOpen, closeModal }) => {
+  console.log('delete modal')
+  return (
+    <Modal open={isOpen} onClose={closeModal} center>
+      <div style={{ margin: 25 }}>
+        <h4>Deleting answer</h4>
+        <p>Are you sure?</p>
+        <button className="btn btn-danger" onClick={deleteQuestion}>Yes</button>
+        <button className="btn" onClick={closeModal}>Cancel</button>
+      </div>
+    </Modal>
   )
 }
 
