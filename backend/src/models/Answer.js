@@ -6,7 +6,8 @@ const answersSchema = new Schema({
   question: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Question'
-  }
+  },
+  userId: String
 }, {timestamps: true});
 
 const Answer = mongoose.model('Answer', answersSchema);

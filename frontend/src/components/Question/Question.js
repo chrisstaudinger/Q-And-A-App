@@ -1,8 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component, useContext } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import SubmitAnswer from './SubmitAnswer';
 import auth0Client from '../../Auth';
+import Answer from './Answer'
+import { UserContext } from '../../context/CurrentUser';
 
 class Question extends Component {
   constructor(props) {
@@ -51,19 +53,30 @@ class Question extends Component {
               <p>Answers:</p>
               { question.answers.length === 0 && <p>No answers have been submitted for this question yet</p> }
               {
-                question.answers && question.answers.map((answer) => (
-                <p className="lead" key={answer._id}>{answer.content}</p>
-                ))
+                question.answers && question.answers.map((answer) => <Answer key={answer._id} answer={answer} refreshQuestion={() => this.refreshQuestion()} />)
               }
             </div>
           </div>
-          <Link to="/" style={{float: "right"}}>
-            <button className="btn btn-dark">Back To Forum</button>
-          </Link>
+          <Buttons question={question} />
         </div>
       </>
     )
   }
+}
+
+const Buttons = ({ question }) => {
+  const currentUser = useContext(UserContext);
+  const deleteQuestion = async () => {}
+  const wasCreatedByCurrentUser = currentUser && currentUser.sub === question.userId
+
+  return (
+    <div style={{ display: "flex", justifyContent: "flex-end"}}>
+    { wasCreatedByCurrentUser && <button className="btn btn-danger" style={{ marginRight: 20 }}>Delete question</button>}
+      <Link to="/" style={{float: "right"}}>
+        <button className="btn btn-dark">Back To Forum</button>
+      </Link>
+    </div>
+  )
 }
 
 export default Question;

@@ -100,11 +100,38 @@ app.post('/answer/:id', checkJwt, async (req, res) => {
   }
 })
 
+
+// Delete an answer to a question
+app.delete('/answer/:id', checkJwt, async (req, res) => {
+  try {
+    const deletedAnswer = await Answer.findByIdAndDelete(req.params.id, (err, answer) => {})
+    res.send(deletedAnswer)
+  } catch (error) {
+    res.status(500).send()
+  }
+})
+
+// Update an answer to a question
+app.put('/answer/:id', checkJwt, async (req, res) => {
+  try {
+    const { content } = req.body;
+    console.log(content)
+    const updatedAnswer = await Answer.findByIdAndUpdate(req.params.id, {content}, {new: true}, (err, answer) => {})
+    console.log(updatedAnswer)
+    res.send(updatedAnswer)
+  } catch (error) {
+    res.status(500).send()
+  }
+})
+
+
 module.exports = app
 
 
 // What is React?
 // Can someone provide a fairy detailed overview of what React is? 🤔
+
+// React is a JavaScript library for building user interfaces. It is maintained by Facebook and a community of individual developers and companies. React can be used as a base in the development of single-page or mobile applications, as it is optimal for fetching rapidly changing data that needs to be recorded
 
 // Why is Testing Important?
 // People are always talking about TDD. What's all the fuzz about?
