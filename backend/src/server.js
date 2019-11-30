@@ -85,11 +85,12 @@ app.post('/', checkJwt, async (req, res) => {
 // Insert a new answer to a question
 app.post('/answer/:id', checkJwt, async (req, res) => {
   try {
-    const { answer } = req.body;
+    const { answer, userId } = req.body;
     const question = await Question.findById(req.params.id, (err, question) => {})
     const newAnswer = new Answer({
       content: answer,
-      question: question._id
+      question: question._id,
+      userId
     })
     const savedAnswer = await newAnswer.save()
     question.answers.push(savedAnswer)
