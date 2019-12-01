@@ -106,6 +106,12 @@ app.post('/answer/:id', checkJwt, async (req, res) => {
 // Delete an answer to a question
 app.delete('/answer/:id', checkJwt, async (req, res) => {
   try {
+    const answer = await Answer.findById(req.params.id, (err, answer) => {})
+    const question = await Question.findById(answer.question, (err, question) => {})
+    const questionAnswers = question.answers
+    const questionAnswersAnswerIndex = questionAnswers.indexOf(answer._id)
+    questionAnswers.splice(questionAnswersAnswerIndex, 1)
+    await Question.findByIdAndUpdate(question._id, {answers: questionAnswers}, (err, question) => {})
     const deletedAnswer = await Answer.findByIdAndDelete(req.params.id, (err, answer) => {})
     res.send(deletedAnswer)
   } catch (error) {
