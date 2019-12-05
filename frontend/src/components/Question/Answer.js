@@ -22,6 +22,7 @@ const PresentAnswer = ({ answer, beginEdit, refreshQuestion }) => {
   const wasCreatedByCurrentUser = currentUser && currentUser.sub === answer.userId
 
   const deleteAnswer = async () => {
+    // eslint-disable-next-line
     const deletedAnswer = await axios.delete(`http://localhost:5000/answer/${answer._id}`, {
       headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
     });
@@ -48,6 +49,7 @@ const EditAnswer = ({ answer, endEdit, refreshQuestion }) => {
   const editAnswer = (event) => setAnswer(event.target.value)
 
   const updateAnswer = async () => {
+    // eslint-disable-next-line
     const updatedAnswer = await axios.put(`http://localhost:5000/answer/${answer._id}`, {
       content: newAnswer
     }, {

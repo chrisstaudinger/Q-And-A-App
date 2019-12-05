@@ -1,5 +1,4 @@
 import React, { Component, useContext, useState } from 'react';
-import { Redirect } from 'react-router';
 import {Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 import SubmitAnswer from './SubmitAnswer';
@@ -73,6 +72,7 @@ const Buttons = ({ question }) => {
   const currentUser = useContext(UserContext);
   const [showConfirmModal, toggleShowConfirmModal] = useState(false)
   const deleteQuestion = async () => {
+    // eslint-disable-next-line
     const deletedAnswer = await axios.delete(`http://localhost:5000/question/${question._id}`, {
       headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
     });

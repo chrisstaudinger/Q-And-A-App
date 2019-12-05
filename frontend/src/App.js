@@ -7,7 +7,6 @@ import Callback from './components/Callback/Callback';
 import NewQuestion from './components/NewQuestion/NewQuestion';
 import SecuredRoute from './components/SecuredRoute/SecuredRoute';
 import auth0Client from './Auth';
-import axios from 'axios';
 import { UserContext } from './context/CurrentUser'
 
 

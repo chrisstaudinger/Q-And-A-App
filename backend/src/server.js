@@ -41,7 +41,7 @@ const checkJwt = jwt({
 });
 
 // require all routes
-app.use(require('./routes'))
+// app.use(require('./routes'))
 
 // retrieve all questions
 app.get('/', async (req, res) => {
@@ -156,3 +156,8 @@ module.exports = app
 
 // Are class components in React going to become deprecated now that there are context and hooks APIs?
 // Good question. It will be interesting to see how it plays out. Bit too early to tell at this point.
+
+// What is Docker?
+// Docker is a tool designed to make it easier to create, deploy, and run applications by using containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and ship it all out as one package
+
+// Should I build my application using GraphQL or RESTAPI?
