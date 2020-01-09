@@ -23,7 +23,7 @@ const PresentAnswer = ({ answer, beginEdit, refreshQuestion }) => {
 
   const deleteAnswer = async () => {
     // eslint-disable-next-line
-    const deletedAnswer = await axios.delete(`http://localhost:5000/answer/${answer._id}`, {
+    const deletedAnswer = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/answer/${answer._id}`, {
       headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
     });
     await refreshQuestion();
@@ -50,7 +50,7 @@ const EditAnswer = ({ answer, endEdit, refreshQuestion }) => {
 
   const updateAnswer = async () => {
     // eslint-disable-next-line
-    const updatedAnswer = await axios.put(`http://localhost:5000/answer/${answer._id}`, {
+    const updatedAnswer = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/answer/${answer._id}`, {
       content: newAnswer
     }, {
       headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }

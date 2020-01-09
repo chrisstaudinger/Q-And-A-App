@@ -24,14 +24,14 @@ class Question extends Component {
 
   async refreshQuestion() {
     const { match: { params } } = this.props;
-    const question = (await axios.get(`http://localhost:5000/${params.questionId}`)).data;
+    const question = (await axios.get(`${process.env.REACT_APP_BACKEND_URL}/${params.questionId}`)).data;
     this.setState({
       question,
     });
   }
 
   async submitAnswer(answer) {
-    await axios.post(`http://localhost:5000/answer/${this.state.question._id}`, {
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/answer/${this.state.question._id}`, {
       answer,
       userId: this.context.sub,
     }, {
@@ -73,7 +73,7 @@ const Buttons = ({ question }) => {
   const [showConfirmModal, toggleShowConfirmModal] = useState(false)
   const deleteQuestion = async () => {
     // eslint-disable-next-line
-    const deletedAnswer = await axios.delete(`http://localhost:5000/question/${question._id}`, {
+    const deletedAnswer = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/question/${question._id}`, {
       headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
     });
     history.push('/')
