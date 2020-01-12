@@ -33,7 +33,7 @@ class NewQuestion extends Component {
       disabled: true,
     });
 
-    await axios.post('http://localhost:5000', {
+    await axios.post(process.env.REACT_APP_BACKEND_URL, {
       title: this.state.title,
       description: this.state.description,
       userId: this.context.sub,

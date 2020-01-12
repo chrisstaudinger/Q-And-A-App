@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const app = require('./server')
+
 mongoose.set('useCreateIndex', true);
 require('dotenv').config();
 const PORT = process.env.PORT || 5000
@@ -14,5 +16,4 @@ mongoose.connect(process.env.DB_URL, dbOptions, (err) => {
   }
 })
 
-const app = require('./server')
 app.listen(PORT, () => console.log(`listening on port ${PORT} 👍`))

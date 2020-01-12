@@ -7,7 +7,7 @@ class Auth {
       domain: 'dev-t3f5y7r6.au.auth0.com',
       audience: 'https://dev-t3f5y7r6.au.auth0.com/userinfo',
       clientID: 'rvWgSnXWdasN5GdsbeYZ9vCHzd0cmowG',
-      redirectUri: 'http://localhost:3000/callback',
+      redirectUri: `${process.env.REACT_APP_AUTH0_CALLBACK_URI}`,
       responseType: 'id_token',
       scope: 'openid profile'
     });
@@ -57,7 +57,7 @@ class Auth {
 
   signOut() {
     this.auth0.logout({
-      returnTo: 'http://localhost:3000',
+      returnTo: `${process.env.REACT_APP_ROOT_URL}`,
       clientID: 'rvWgSnXWdasN5GdsbeYZ9vCHzd0cmowG',
     });
   }

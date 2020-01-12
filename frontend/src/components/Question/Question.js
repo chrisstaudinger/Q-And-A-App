@@ -1,5 +1,4 @@
 import React, { Component, useContext, useState } from 'react';
-import { Redirect } from 'react-router';
 import {Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 import SubmitAnswer from './SubmitAnswer';
@@ -25,14 +24,14 @@ class Question extends Component {
 
   async refreshQuestion() {
     const { match: { params } } = this.props;
-    const question = (await axios.get(`http://localhost:5000/${params.questionId}`)).data;
+    const question = (await axios.get(`${process.env.REACT_APP_BACKEND_URL}/${params.questionId}`)).data;
     this.setState({
       question,
     });
   }
 
   async submitAnswer(answer) {
-    await axios.post(`http://localhost:5000/answer/${this.state.question._id}`, {
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/answer/${this.state.question._id}`, {
       answer,
       userId: this.context.sub,
     }, {
@@ -73,7 +72,8 @@ const Buttons = ({ question }) => {
   const currentUser = useContext(UserContext);
   const [showConfirmModal, toggleShowConfirmModal] = useState(false)
   const deleteQuestion = async () => {
-    const deletedAnswer = await axios.delete(`http://localhost:5000/question/${question._id}`, {
+    // eslint-disable-next-line
+    const deletedAnswer = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/question/${question._id}`, {
       headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
     });
     history.push('/')
@@ -97,7 +97,7 @@ const ConfirmDeleteModal = ({ deleteQuestion, isOpen, closeModal }) => {
   return (
     <Modal open={isOpen} onClose={closeModal} center>
       <div style={{ margin: 25 }}>
-        <h4>Deleting answer</h4>
+        <h4>Deleting question</h4>
         <p>Are you sure?</p>
         <button className="btn btn-danger" onClick={deleteQuestion}>Yes</button>
         <button className="btn" onClick={closeModal}>Cancel</button>
