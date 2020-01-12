@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const { index, create, update, destroy } = require('../controllers/questions-controller');
+const { index, show, create, destroy } = require('../controllers/questions-controller');
 
-// middleware
-const authMiddleware = require('../middleware/auth-middleware');
+// auth middleware
+const { checkJwt } = require('../middleware/auth-middleware');
 
-router.get('/', index);
-router.post('/', authMiddleware, express.json(), create)
-router.put('/', authMiddleware, express.json(), update)
-router.delete('/', authMiddleware, express.json(), destroy)
+router.get('/', index)
+router.get('/:id', show)
+router.post('/', checkJwt, create)
+router.delete('/question/:id', checkJwt, destroy)
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.use('/questions', require('./questions'));
-router.use('/answers', require('./answers'));
+router.use('/answer', require('./answers'));
+router.use('/', require('./questions'));
 
 module.exports = router;

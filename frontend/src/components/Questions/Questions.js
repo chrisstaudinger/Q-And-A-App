@@ -23,7 +23,7 @@ class Questions extends Component {
     return (
       <div className="container">
         <div className="row">
-          <Link to="/new-question">
+          <Link to="/new-question" style={{marginLeft: '15px'}}>
             <div className="card text-white bg-secondary mb-3">
               <div className="card-header">Need help? Ask here!</div>
               <div className="card-body">

@@ -97,7 +97,7 @@ const ConfirmDeleteModal = ({ deleteQuestion, isOpen, closeModal }) => {
   return (
     <Modal open={isOpen} onClose={closeModal} center>
       <div style={{ margin: 25 }}>
-        <h4>Deleting answer</h4>
+        <h4>Deleting question</h4>
         <p>Are you sure?</p>
         <button className="btn btn-danger" onClick={deleteQuestion}>Yes</button>
         <button className="btn" onClick={closeModal}>Cancel</button>

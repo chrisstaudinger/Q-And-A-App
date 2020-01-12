@@ -1,53 +1,57 @@
 const Question = require('../models/Question');
+const Answer = require('../models/Answer')
 
+// retrieve all questions
 const index = async (req, res) => {
   try {
-    const posts = await Post.find().sort({createdAt: -1})
-    res.send(posts)
-  } catch(err) {
-    res.status(404).send(err)
+    const questions = await Question.find()
+    res.send(questions)
+  } catch (error) {
+    res.status(500).send()
   }
 }
 
+// get a specific question
+const show = async (req, res) => {
+  try {
+    const question = await Question.findById(req.params.id, (err, question) => {})
+    .populate('answers')
+    res.send(question)
+  } catch (error) {
+    if (question.length > 1) return res.status(500).send()
+    if (question.length === 0) return res.status(404).send()
+  }
+}
+
+// insert a new question
 const create = async (req, res) => {
   try {
-    const { title, content } = req.body
-    const newPost = new Post({
+    const { title, description, userId } = req.body
+    const newQuestion = new Question({
       title,
-      content
+      description,
+      userId
     })
-    const savedPost = await newPost.save()
-    res.send(savedPost)
-  } catch(err) {
-    res.status(404).send(err)
+    const savedQuestion = await newQuestion.save()
+    res.send(savedQuestion)
+  } catch (error) {
+    res.status(500).send()
   }
 }
 
-const update = async (req, res) => {
-  try {
-    const { id, content } = req.body
-    const post = await Post.findOne({_id: id})
-    post.content = content
-    const updatedPost = await post.save()
-    res.send(updatedPost)
-  } catch(err) {
-    res.status(404).send(err)
-  }
-}
-
+// Delete a question
 const destroy = async (req, res) => {
   try {
-    const { id } = req.body
-    const result = await Post.findByIdAndDelete(id)
-    res.send(result)
-  } catch(err) {
-    res.status(404).send(err)
+    const deletedQuestion = await Question.findByIdAndDelete(req.params.id, (err, question) => {})
+    res.send(deletedQuestion)
+  } catch (error) {
+    res.status(500).send()
   }
 }
 
 module.exports = {
   index,
+  show,
   create,
-  update,
   destroy
 }
