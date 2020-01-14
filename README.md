@@ -2,7 +2,7 @@
 
 # [View Application Here](https://stack-overflowd.netlify.com/)
 
-![Stack Overflow'd Screenshot]( "Stack Overflow'd Screenshot")
+![Stack Overflow'd Screenshot](https://github.com/chrisstaudinger/Q-And-A-MERN-App/blob/master/frontend/public/assets/images/stack-overflow'd-screenshot.png?raw=true "Stack Overflow'd Screenshot")
 
 ### Purpose
 
