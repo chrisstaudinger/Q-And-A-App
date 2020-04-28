@@ -12,7 +12,10 @@ const questionsSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Answer'
   }],
-  userId: String
+  userId: {
+    type: String,
+    required: true
+  }
 }, {timestamps: true});
 
 const Question = mongoose.model('Question', questionsSchema);
