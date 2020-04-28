@@ -6,14 +6,25 @@ require('dotenv').config();
 const PORT = process.env.PORT || 5000
 
 
-// mongoose
-const dbOptions = { useNewUrlParser: true, useUnifiedTopology: true }
-mongoose.connect(process.env.DB_URL, dbOptions, (err) => {
-  if (err) {
-    console.log('not connected ❌')
-  } else {
-    console.log('connected ✅')
-  }
-})
+const connectDB = async () => {
+  const dbOptions = { useNewUrlParser: true, useUnifiedTopology: true }
+  await mongoose.connect(process.env.DB_URL, dbOptions, (err) => {
+    if (err) {
+      console.log('not connected ❌')
+    } else {
+      console.log('connected ✅')
+    }
+  })
+}
+connectDB()
 
-app.listen(PORT, () => console.log(`listening on port ${PORT} 👍`))
+const runServer = () => {
+  try {
+    app.listen(PORT, () => console.log(`listening on port ${PORT} 👍`))
+  } catch (error) {
+    return error
+  }
+}
+runServer()
+
+module.exports = { connectDB, runServer }
