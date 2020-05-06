@@ -41,7 +41,7 @@ describe('Answer Model', () => {
       })
       const savedAnswer = await Answer.find()
       expect(savedAnswer).toBeDefined()
-      expect(typeof savedAnswer === 'object').toBe(true)
+      expect(typeof savedAnswer).toBe('object')
     })
   })
 
@@ -56,7 +56,7 @@ describe('Answer Model', () => {
       const update = {content: 'This is an UPDATED answer!'}
       await Answer.findOneAndUpdate(content, update)
       const updatedAnswer = await Answer.findOne()
-      expect(typeof updatedAnswer === 'object').toBe(true)
+      expect(typeof updatedAnswer).toBe('object')
       expect(updatedAnswer.content).toEqual(update.content)
     })
   })
@@ -70,8 +70,7 @@ describe('Answer Model', () => {
       })
       const content = {content: 'This is a test answer. Am I working?'}
       const deletedAnswer = await Answer.findOneAndDelete(content)
-      console.log('deletedAnswer', deletedAnswer)
-      expect(typeof deletedAnswer === 'object').toBe(true)
+      expect(typeof deletedAnswer).toBe('object')
       expect(deletedAnswer).not.toBeNull()
     })
   })

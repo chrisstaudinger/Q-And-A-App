@@ -36,7 +36,7 @@ describe('Question Model', () => {
         userId: 'google-oauth2|111937416803417932837000'
       })
       const savedQuestion = await Question.findOne({title: 'What is React?'})
-      expect(typeof savedQuestion === 'object').toBe(true)
+      expect(typeof savedQuestion).toBe('object')
       expect(savedQuestion).not.toBeNull()
       expect(savedQuestion.title).toBe(newQuestion.title)
     })
@@ -51,7 +51,7 @@ describe('Question Model', () => {
         userId: 'google-oauth2|11193741680341793283700000'
       })
       const savedQuestion = await Question.findOne({title: 'Why is Testing Important?'})
-      expect(typeof savedQuestion === 'object').toBe(true)
+      expect(typeof savedQuestion).toBe('object')
       expect(savedQuestion).not.toBeNull()
       expect(savedQuestion.title).toBe(newQuestion.title)
     })
@@ -70,7 +70,7 @@ describe('Question Model', () => {
       const update = {title: "Why Is Docker So Popular"}
       await Question.findOneAndUpdate(title, update)
       const updatedQuestion = await Question.findOne(update)
-      expect(typeof updatedQuestion === 'object').toBe(true)
+      expect(typeof updatedQuestion).toBe('object')
       expect(updatedQuestion).not.toBeNull()
       expect(updatedQuestion.title).toBe(update.title)
     })
