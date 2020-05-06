@@ -12,26 +12,51 @@ const connectDB = async () => {
   }
 }
 
-describe('GET questions', () => {
+const question = {
+  title: 'What is React?',
+  description: 'Can someone provide a fairy detailed overview of what React is? 🤔',
+  answers: [],
+  userId: 'google-oauth2|111937416803417932837000'
+}
+
+
+describe('GET "/" (questions)', () => {
   beforeEach(async () => {
     connectDB()
-    await Question.create({
-      title: 'What is React?',
-      description: 'Can someone provide a fairy detailed overview of what React is? 🤔',
-      answers: [],
-      userId: 'google-oauth2|111937416803417932837000'
-    })
+    await Question.create(question)
+  })
+  
+  afterEach(async () => {
+    await Question.deleteMany({})
+    await mongoose.connection.close()
+  })
+  
+  it('responds with JSON data', async () => {
+    const res = await request(app)
+    .get('/')
+    .expect('Content-Type', /json/)
+    expect(res.status).toEqual(200)
+    expect(res.body[0]).toHaveProperty('title')
+  })
+})
+
+describe('GET "/:id" (1 question)', () => {
+  beforeEach(async () => {
+    await connectDB()
+    await Question.create(question)
   })
 
   afterEach(async () => {
     await Question.deleteMany({})
-    mongoose.connection.close()
+    await mongoose.connection.close()
   })
 
-  it('responds with JSON', async () => {
-  const res = await request(app)
-    .get('/')
-  expect(res.statusCode).toEqual(200)
-  expect(res.body[0]).toHaveProperty('title')
+  it('responds with specified question as JSON data', async () => {
+    const retrievedQuestion = await Question.findOne({title: question.title})
+    const res = await request(app)
+      .get(`/${retrievedQuestion._id}`)
+      .expect('Content-Type', /json/)
+    expect(res.status).toEqual(200)
+    expect(res.body).toHaveProperty('title')
   })
 })
