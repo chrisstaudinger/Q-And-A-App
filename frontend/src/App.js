@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Route, withRouter} from 'react-router-dom';
+import {Route, withRouter, BrowserRouter as Router } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import Questions from './components/Questions/Questions';
 import Question from './components/Question/Question';
@@ -34,17 +34,18 @@ class App extends Component {
 
   render() {
     return (
-      <UserContext.Provider value={auth0Client.getProfile()}>
-        <NavBar />
-        <Route exact path='/' component={Questions}/>
-        <Route exact path='/question/:questionId' component={Question}/>
-        <Route exact path='/callback' component={Callback}/>
-        <SecuredRoute path='/new-question'
-        component={NewQuestion}
-        checkingSession={this.state.checkingSession} />
-      </UserContext.Provider>
+        <UserContext.Provider value={auth0Client.getProfile()}>
+          <NavBar />
+          <Route exact path='/' component={Questions}/>
+          <Route exact path='/question/:questionId' component={Question}/>
+          <Route exact path='/callback' component={Callback}/>
+          <SecuredRoute path='/new-question'
+          component={NewQuestion}
+          checkingSession={this.state.checkingSession} />
+        </UserContext.Provider>
     );
   }
 }
 
 export default withRouter(App);
+// export default App
