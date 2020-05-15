@@ -3,7 +3,6 @@ import auth0 from 'auth0-js';
 class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth({
-      // the following three lines MUST be updated
       domain: 'dev-t3f5y7r6.au.auth0.com',
       audience: 'https://dev-t3f5y7r6.au.auth0.com/userinfo',
       clientID: 'rvWgSnXWdasN5GdsbeYZ9vCHzd0cmowG',
@@ -51,7 +50,6 @@ class Auth {
   setSession(authResult) {
     this.idToken = authResult.idToken;
     this.profile = authResult.idTokenPayload;
-    // set the time that the id token will expire at
     this.expiresAt = authResult.idTokenPayload.exp * 1000;
   }
 

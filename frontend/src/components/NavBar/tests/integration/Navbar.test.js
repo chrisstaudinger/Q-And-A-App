@@ -18,7 +18,7 @@ it('renders', () => {
 })
 
 describe('Sign in', () => {
-  it('should invoke auth signIn', () => {
+  it('should invoke auth signIn()', () => {
     const { getByText } = render(
     <MemoryRouter> 
       <NavBar /> 
@@ -27,5 +27,21 @@ describe('Sign in', () => {
     const signInButton = getByText('Sign In')
     fireEvent.click(signInButton)
     expect(auth0Client.signIn).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('Sign out', () => {
+  it('should invoke auth signOut()', () => {
+    auth0Client.isAuthenticated = jest
+      .fn()
+      .mockImplementation(() => true)
+    const { getByText } = render(
+      <MemoryRouter> 
+        <NavBar /> 
+      </MemoryRouter>
+      )
+    const signOutButton = getByText('Sign Out')
+    fireEvent.click(signOutButton)
+    expect(auth0Client.signOut).toHaveBeenCalledTimes(1)
   })
 })
