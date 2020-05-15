@@ -1,7 +1,10 @@
+// jest.mock('../../middleware/auth-middleware', () => jest.fn((req, res, next) => next()))
+
 const request = require('supertest')
 const app = require('../../app')
 const mongoose = require('mongoose')
 const Question = require('../../models/Question')
+// const { checkJwt } = require('../../middleware/auth-middleware')
 const testDBURL = 'mongodb://127.0.0.1:27017/qa-app'
 
 const connectDB = async () => {
@@ -11,14 +14,13 @@ const connectDB = async () => {
     console.log(error)
   }
 }
-
+ 
 const question = {
   title: 'What is React?',
   description: 'Can someone provide a fairy detailed overview of what React is? 🤔',
   answers: [],
   userId: 'google-oauth2|111937416803417932837000'
 }
-
 
 describe('GET "/" (questions)', () => {
   beforeEach(async () => {
@@ -60,3 +62,28 @@ describe('GET "/:id" (1 question)', () => {
     expect(res.body).toHaveProperty('title')
   })
 })
+
+// describe('POST "/" (create 1 question)', () => {
+  // beforeEach(async () => {
+  //   await connectDB()
+  // })
+
+  // afterEach(async () => {
+  //   await Question.deleteMany({})
+  //   await mongoose.connection.close()
+  // })
+
+  // it('responds with specified question as JSON data', (done) => {
+  //   request(app)
+  //     .post('/')
+  //     // .set('Authorization','Bearer '+ 'authToken')
+  //     .send(question)
+  //     .set('Accept', 'application/json')
+  //     .expect('Content-Type', /json/)
+  //     .expect(200)
+  //     .end(function(err, res) {
+  //       if (err) return done(err);
+  //       done();
+  //     })
+  // })
+// })
